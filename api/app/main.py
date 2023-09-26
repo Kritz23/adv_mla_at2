@@ -9,11 +9,31 @@ sgd_pipe = load('../models/sgd_pipeline.joblib')
 
 @app.get("/")
 def read_root():
-    return {"Hello": "World"}
+    info = '''
+            Welcome! This web app is made for Predicting and Forecasting \
+            the sales revenue in 10 retail stores accross 3 diff states in the US. \n 
+            1. The prediction model predicts the approximate revenue for a given item with \
+            its average sell price, store id, and a given date. \n 
+            2. The forcasting model gives the forecasted sales revenue for the \
+            next 7 days for an input date. \n The following are the accessible API endpoints" \n 
+            1. /health/ - Status code 200 with a welcome message. \n 
+            2. /sales/national/ - Returns next 7 days sales revenue forecast for an input date \n 
+            3. /sales/stores/items/ - Returns predicted sales revenue for an input item, sell price, store and date. \n
+            Expected input parameters for /sales/national/: \n
+            date: string \n
+            Expected input parameters for /sales/stores/items/: \n 
+            item_id: string,
+            store_id: string,
+            sell_price: float,
+            date: string \n
+            Model output: list \n \n 
+            Github link = https://github.com/Kritz23/adv_mla_at2
+            '''
+    return info
 
 @app.get('/health', status_code=200)
 def healthcheck():
-    return 'SGDRegressor is all ready to go!'
+    return 'Predictive and Forecasting models are ready to use!'
 
 def format_features(
     item_id: str,
