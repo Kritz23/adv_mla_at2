@@ -77,8 +77,6 @@ target/
 
 # exclude data from source control by default
 /data/
-api/models/arima.joblib
-models/forecasting/arima.joblib
 
 # Mac OS-specific storage files
 .DS_Store
