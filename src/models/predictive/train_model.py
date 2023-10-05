@@ -18,7 +18,7 @@ class ModelPipeline:
         preprocessor = ColumnTransformer(
             transformers=[
                 ('num', StandardScaler(), self.numeric),
-                ('cat', OneHotEncoder(drop='first'), self.categorical),
+                ('cat', OneHotEncoder(drop='first', handle_unknown = 'infrequent_if_exist'), self.categorical),
             ])
         return preprocessor
 
@@ -33,7 +33,8 @@ class ModelPipeline:
                                     n_iter_no_change=10  # Number of iterations with no improvement on validation set
             ))
             
-        ])
+        ],
+        verbose = True)
         return pipeline
 
     def train(self, X_train, y_train):

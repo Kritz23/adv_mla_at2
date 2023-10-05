@@ -4,7 +4,7 @@ import pandas as pd
 min_non_zero_percentage = 10  # Adjust as needed
 total_days = 1541
 
-def filter_byper(df):
+def filter_bypercent(df):
     # Calculate the percentage of non-zero days for each item
     df['non_zero_percentage'] = (df.iloc[:, 2:] > 0).sum(axis=1) / total_days * 100
 
