@@ -6,6 +6,7 @@ import pandas as pd
 app = FastAPI()
 
 sgd_pipe = load('../models/sgd_pipeline.joblib')
+arima_model = load('../models/arima.joblib')
 
 @app.get("/")
 def read_root():
@@ -15,12 +16,10 @@ def read_root():
             1. The prediction model predicts the approximate revenue for a given item with \
             its average sell price, store id, and a given date. \n 
             2. The forcasting model gives the forecasted sales revenue for the \
-            next 7 days for an input date. \n The following are the accessible API endpoints" \n 
+            next 7 days. \n The following are the accessible API endpoints" \n 
             1. /health/ - Status code 200 with a welcome message. \n 
-            2. /sales/national/ - Returns next 7 days sales revenue forecast for an input date \n 
+            2. /sales/national/ - Returns next 7 days sales revenue forecast \n 
             3. /sales/stores/items/ - Returns predicted sales revenue for an input item, sell price, store and date. \n
-            Expected input parameters for /sales/national/: \n
-            date: string \n
             Expected input parameters for /sales/stores/items/: \n 
             item_id: string,
             store_id: string,
@@ -51,8 +50,14 @@ def format_features(
         'weekday': [pd.to_datetime(date).dayofweek]
     }
 
-# Solution:
-@app.get("/sales/stores/items/prediction")
+### 7 days sales forecast
+@app.get("/sales/national")
+def predict():
+    forecast = arima_model.predict(n_periods=7)
+    return JSONResponse(forecast.tolist())
+
+### sales revenue prediction
+@app.get("/sales/stores/items")
 def predict(
     item_id: str,
     store_id: str,
