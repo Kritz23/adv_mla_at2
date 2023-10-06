@@ -11,21 +11,21 @@ arima_model = load('../models/arima.joblib')
 @app.get("/")
 def read_root():
     info = '''
-            Welcome! This web app is made for Predicting and Forecasting \
-            the sales revenue in 10 retail stores accross 3 diff states in the US. \n 
-            1. The prediction model predicts the approximate revenue for a given item with \
-            its average sell price, store id, and a given date. \n 
-            2. The forcasting model gives the forecasted sales revenue for the \
-            next 7 days. \n The following are the accessible API endpoints" \n 
-            1. /health/ - Status code 200 with a welcome message. \n 
-            2. /sales/national/ - Returns next 7 days sales revenue forecast \n 
-            3. /sales/stores/items/ - Returns predicted sales revenue for an input item, sell price, store and date. \n
-            Expected input parameters for /sales/stores/items/: \n 
+            Welcome! This web app is made for Predicting and Forecasting 
+            the sales revenue in 10 retail stores accross 3 diff states in the US. <br> 
+            1. The prediction model predicts the approximate revenue for a given item with 
+            its average sell price, store id, and a given date. <br> 
+            2. The forcasting model gives the forecasted sales revenue for the 
+            next 7 days. \n The following are the accessible API endpoints" <br> 
+            1. /health/ - Status code 200 with a welcome message. <br> 
+            2. /sales/national/ - Returns next 7 days sales revenue forecast <br> 
+            3. /sales/stores/items/ - Returns predicted sales revenue for an input item, sell price, store and date. <br>
+            Expected input parameters for /sales/stores/items/: <br> 
             item_id: string,
             store_id: string,
             sell_price: float,
-            date: string \n
-            Model output: list \n \n 
+            date: string <br>
+            Model output: list <br> <br> 
             Github link = https://github.com/Kritz23/adv_mla_at2
             '''
     return info
