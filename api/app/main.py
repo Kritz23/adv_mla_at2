@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from starlette.responses import JSONResponse
+from starlette.responses import HTMLResponse
 from joblib import load
 import pandas as pd
 
@@ -8,34 +9,32 @@ app = FastAPI()
 sgd_pipe = load('../models/sgd_pipeline.joblib')
 arima_model = load('../models/arima.joblib')
 
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
 def read_root():
     info = '''
-        <html>
-        <body>
-            <h1>Welcome!</h1>
-            <p>This web app is made for Predicting and Forecasting the sales revenue in 10 retail stores across 3 different states in the US.</p>
-            <p>1. The prediction model predicts the approximate revenue for a given item with its average sell price, store id, and a given date.</p>
-            <p>2. The forecasting model gives the forecasted sales revenue for the next 7 days.</p>
-            <p>The following are the accessible API endpoints:</p>
-            <ul>
-                <li><strong>/health/</strong> - Status code 200 with a welcome message.</li>
-                <li><strong>/sales/national/</strong> - Returns next 7 days sales revenue forecast.</li>
-                <li><strong>/sales/stores/items/</strong> - Returns predicted sales revenue for an input item, sell price, store, and date.</li>
-            </ul>
-            <p>Expected input parameters for <strong>/sales/stores/items/</strong>:</p>
-            <ul>
-                <li>item_id: string</li>
-                <li>store_id: string</li>
-                <li>sell_price: float</li>
-                <li>date: string</li>
-            </ul>
-            <p>Model output: list</p>
-            <p><br></p>
-            <p><br></p>
-            <p>Github link: <a href="https://github.com/Kritz23/adv_mla_at2">https://github.com/Kritz23/adv_mla_at2</a></p>
-        </body>
-        </html>
+        <h1>Welcome!</h1>
+        <p>This web app is made for Predicting and Forecasting the sales revenue in 10 retail stores across 3 different states in the US.</p>
+        <ol>
+        <li><strong>The prediction model predicts the approximate revenue for a given item with its average sell price, store id, and a given date.</strong></li> 
+        <li><strong>The forcasting model gives the forecasted sales revenue for the next 7 days.</strong></li>
+        <h2>The following are the accessible API endpoints:</h2>
+        <ol>
+        <li>/health/ - Status code 200 with a welcome message.</li>
+        <li>/sales/national/ - Returns next 7 days sales revenue forecast.</li>
+        <li>/sales/stores/items/ - Returns predicted sales revenue for an input item, sell price, store, and date.</li>
+        </ol>
+
+        <h2>Expected input parameters for /sales/stores/items/:</h2>
+        <ul>
+        <li>item_id: string</li>
+        <li>store_id: string</li>
+        <li>sell_price: float</li>
+        <li>date: string, MUST be in mm/dd/yyyy format</li>
+        </ul>
+
+        <h2>Model output: [List]</h2>
+
+        <p><strong>Github link:</strong> <a href="https://github.com/Kritz23/adv_mla_at2">https://github.com/Kritz23/adv_mla_at2</a></p>
         '''
     return HTMLResponse(content=info)
 
