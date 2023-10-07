@@ -3,11 +3,11 @@ from starlette.responses import JSONResponse
 from starlette.responses import HTMLResponse
 from joblib import load
 import pandas as pd
+import numpy as np
+from functools import lru_cache
+import gc
 
 app = FastAPI()
-
-sgd_pipe = load('../models/sgd_pipeline.joblib')
-arima_model = load('../models/arima.joblib')
 
 @app.get("/", response_class=HTMLResponse)
 def read_root():
@@ -36,6 +36,7 @@ def read_root():
 
         <p><strong>Github link:</strong> <a href="https://github.com/Kritz23/adv_mla_at2">https://github.com/Kritz23/adv_mla_at2</a></p>
         '''
+    gc.collect()
     return HTMLResponse(content=info)
 
 @app.get('/health', status_code=200)
@@ -60,25 +61,38 @@ def format_features(
 
 ### 7 days sales forecast
 @app.get("/sales/national")
-def predict():
-    forecast = arima_model.predict(n_periods=7)
-    return JSONResponse(forecast.tolist())
+@lru_cache(maxsize=None) 
+def forecast():
+    # Load the model if it's not in the cache
+    if forecast.cache_info().misses == 1:
+        arima_pipe = load('../models/arima.joblib')
+
+    forecasted_sales = arima_pipe.predict(n_periods=7)
+    gc.collect()
+    return JSONResponse(np.round(forecasted_sales, decimals=2).tolist())
 
 ### sales revenue prediction
 @app.get("/sales/stores/items")
+@lru_cache(maxsize=None) 
 def predict(
     item_id: str,
     store_id: str,
     sell_price: float,
     date: str,
 ):
+    # Load the model if it's not in the cache
+    if predict.cache_info().misses == 1:
+        sgd_pipe = load('../models/sgd_pipeline.joblib')
+
     features = format_features(
         item_id,
         store_id,
         sell_price,
         date
         )
+    
     obs = pd.DataFrame(features)
     print(obs, flush=True)
     pred = sgd_pipe.predict(obs)
+    gc.collect()
     return JSONResponse(pred.tolist())
