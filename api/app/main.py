@@ -11,24 +11,33 @@ arima_model = load('../models/arima.joblib')
 @app.get("/")
 def read_root():
     info = '''
-            Welcome! This web app is made for Predicting and Forecasting 
-            the sales revenue in 10 retail stores accross 3 diff states in the US. <br> 
-            1. The prediction model predicts the approximate revenue for a given item with 
-            its average sell price, store id, and a given date. <br> 
-            2. The forcasting model gives the forecasted sales revenue for the 
-            next 7 days. \n The following are the accessible API endpoints" <br> 
-            1. /health/ - Status code 200 with a welcome message. <br> 
-            2. /sales/national/ - Returns next 7 days sales revenue forecast <br> 
-            3. /sales/stores/items/ - Returns predicted sales revenue for an input item, sell price, store and date. <br>
-            Expected input parameters for /sales/stores/items/: <br> 
-            item_id: string,
-            store_id: string,
-            sell_price: float,
-            date: string <br>
-            Model output: list <br> <br> 
-            Github link = https://github.com/Kritz23/adv_mla_at2
-            '''
-    return info
+        <html>
+        <body>
+            <h1>Welcome!</h1>
+            <p>This web app is made for Predicting and Forecasting the sales revenue in 10 retail stores across 3 different states in the US.</p>
+            <p>1. The prediction model predicts the approximate revenue for a given item with its average sell price, store id, and a given date.</p>
+            <p>2. The forecasting model gives the forecasted sales revenue for the next 7 days.</p>
+            <p>The following are the accessible API endpoints:</p>
+            <ul>
+                <li><strong>/health/</strong> - Status code 200 with a welcome message.</li>
+                <li><strong>/sales/national/</strong> - Returns next 7 days sales revenue forecast.</li>
+                <li><strong>/sales/stores/items/</strong> - Returns predicted sales revenue for an input item, sell price, store, and date.</li>
+            </ul>
+            <p>Expected input parameters for <strong>/sales/stores/items/</strong>:</p>
+            <ul>
+                <li>item_id: string</li>
+                <li>store_id: string</li>
+                <li>sell_price: float</li>
+                <li>date: string</li>
+            </ul>
+            <p>Model output: list</p>
+            <p><br></p>
+            <p><br></p>
+            <p>Github link: <a href="https://github.com/Kritz23/adv_mla_at2">https://github.com/Kritz23/adv_mla_at2</a></p>
+        </body>
+        </html>
+        '''
+    return HTMLResponse(content=info)
 
 @app.get('/health', status_code=200)
 def healthcheck():
