@@ -7,7 +7,7 @@ We were adviced to develop two models namely:
 1. Predictive Sales Revenue Model: This model uses machine learning to predict the revenue made from sales for a specific item with its sell price, in a specific store on the given date. It makes it possible to manage inventory, plan sales, and make the most money possible. <br>
 2. Forecasting Sales Revenue Model: This model uses time series analysis to forecast how much revenue will be made from sales of all items and stores in the next seven days. It gives us useful information for making quick decisions and allocating resources.
 
-These models were developed and deployed on Heroku app: [here](https://still-river-01922-033c48cad951.herokuapp.com/)
+These models were developed and deployed on **Heroku app**: [here](https://still-river-01922-033c48cad951.herokuapp.com/)
 
 ----------------
 
@@ -16,7 +16,7 @@ These models were developed and deployed on Heroku app: [here](https://still-riv
 ### Set up environment using poetry
 
 1. Clone this repository and go to the directory by: `cd adv_mla_at2`
-2. Initialise the poerty project file: `poetry init`
+2. Initialise the poetry project file: `poetry init` (Already there)
 3. Activate environment: `poetry shell`
 4. Install dependencies using: `poetry install`
 
@@ -45,8 +45,10 @@ These models were developed and deployed on Heroku app: [here](https://still-riv
 
 ### Access the API endpoints:
 Try this out to predict revenue for an item with its sell price, at a given store and for a date: [predictive api](https://still-river-01922-033c48cad951.herokuapp.com/sales/stores/items?item_id=HOBBIES_1_060&store_id=CA_1&sell_price=30.98&date=2012-11-12') <br>
+Change the item_id, sell price and other inputs to your requirement. 
 
-[/sales/national/](https://still-river-01922-033c48cad951.herokuapp.com/sales/national) will give you the total revenue for the next seven days across all stores for all items.
+[/sales/national/](https://still-river-01922-033c48cad951.herokuapp.com/sales/national) will give you the total revenue for the next seven days across all stores for all items. <br>
+It gives output in a list - day_one_revenue, day_two_revenue and so on.
 
 ### Additional notes:
 You can change the expected forecast revenue for any number of days you want. Just change the value of `n_periods` in the `arima_pipe.predict(n_periods=7)`. It is in the forecast function of the `main.py` file. 
